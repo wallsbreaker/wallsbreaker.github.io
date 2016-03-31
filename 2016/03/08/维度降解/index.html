@@ -1,0 +1,778 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ML," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="青衫独醉" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="维度降解是一个在机器学习应用或者数据挖掘领域非常常见的一个方法和概念，它的含义很直白，就是要将数据从原本所在的高维空间映射到低维空间中去。理解维度降解需要从两个方面：
+
+为什么要做维度降解
+映射到哪里去,如何映射
+
+为什么需要维度降解
+维度灾难：很难有一个简洁的模型在高维空间中依旧具有鲁棒性，而随着模型复杂度的增加，为保证结果同样的精度和准确性，所需要的数据也需要极大增加，而高维空间的数据本身具备">
+<meta property="og:type" content="article">
+<meta property="og:title" content="维度降解">
+<meta property="og:url" content="http://wallsbreaker.github.io/2016/03/08/维度降解/index.html">
+<meta property="og:site_name" content="青衫独醉">
+<meta property="og:description" content="维度降解是一个在机器学习应用或者数据挖掘领域非常常见的一个方法和概念，它的含义很直白，就是要将数据从原本所在的高维空间映射到低维空间中去。理解维度降解需要从两个方面：
+
+为什么要做维度降解
+映射到哪里去,如何映射
+
+为什么需要维度降解
+维度灾难：很难有一个简洁的模型在高维空间中依旧具有鲁棒性，而随着模型复杂度的增加，为保证结果同样的精度和准确性，所需要的数据也需要极大增加，而高维空间的数据本身具备">
+<meta property="og:image" content="http://wallsbreaker.github.io/images/lle_1.png">
+<meta property="og:updated_time" content="2016-03-24T01:00:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="维度降解">
+<meta name="twitter:description" content="维度降解是一个在机器学习应用或者数据挖掘领域非常常见的一个方法和概念，它的含义很直白，就是要将数据从原本所在的高维空间映射到低维空间中去。理解维度降解需要从两个方面：
+
+为什么要做维度降解
+映射到哪里去,如何映射
+
+为什么需要维度降解
+维度灾难：很难有一个简洁的模型在高维空间中依旧具有鲁棒性，而随着模型复杂度的增加，为保证结果同样的精度和准确性，所需要的数据也需要极大增加，而高维空间的数据本身具备">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 维度降解 | 青衫独醉 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">青衫独醉</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                维度降解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-08T10:36:57+08:00" content="2016-03-08">
+              2016-03-08
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>维度降解是一个在机器学习应用或者数据挖掘领域非常常见的一个方法和概念，它的含义很直白，就是要将数据从原本所在的高维空间映射到低维空间中去。理解维度降解需要从两个方面：</p>
+<ul>
+<li>为什么要做维度降解</li>
+<li>映射到哪里去,如何映射</li>
+</ul>
+<h1 id="为什么需要维度降解"><a href="#为什么需要维度降解" class="headerlink" title="为什么需要维度降解"></a>为什么需要维度降解</h1><ul>
+<li>维度灾难：很难有一个简洁的模型在高维空间中依旧具有鲁棒性，而随着模型复杂度的增加，为保证结果同样的精度和准确性，所需要的数据也需要极大增加，而高维空间的数据本身具备稀疏性，可想而知如果真要这么做，需要的数据是难以估计的。当然并不是所有的高维空间都不好，比如核方法，有些非线性的规律就需要映射到更高维的空间中去才能更好地解决，只不过核方法提供了一种更为简洁的运算。</li>
+<li>查询和计算的准确性和效率。准确性的话维度越高相对来说的确精度越低，一是数据度量本身的不准确性增加，而是计算时比如浮点数或者舍入等情况越多的发生，对准确性会有影响。而效率的影响更是显而易见的。</li>
+<li>去噪。 降维带来的去燥效果主要来源于两个方面，一是上面所说的计算时准确性同样的原因。二就是我们将维度降下来意味着我们只保留最主要的规律和信息，而那些轻微的细小的相关性一部分而是噪音的影响，另外一些则是我们并不希望关注的数据本身的弱关联性。</li>
+<li>数据压缩。 这主要是从存储的角度考虑</li>
+<li>可视化。 如果有可视化的需要的话,2D,3D</li>
+</ul>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>维度讲解的方法历经发展已经有很多：</p>
+<ul>
+<li>Linear:<br>   Unsupervised: PCA, ICA, SVD, LSA(LSI)<br>   Supervised: LDA, CCA, PLS</li>
+<li>Non-linear:<br>  Unsupervised: LLE, Isomap, MDR<br>  Supervised: Learning with Non-linear kernels<br>这里我们只介绍PCA, LLE和Isomap。</li>
+</ul>
+<h2 id="PCA"><a href="#PCA" class="headerlink" title="PCA"></a>PCA</h2><p>其实从本质上讲PCA只是在做线性变换,就将讲原本数据变换到方差最大的那几个新坐标轴上去，尽量将数据中原有的不相关性保留下来。具体的做法就是：</p>
+<ol>
+<li>减均值（相当于将新坐标系的原点平移到了数据中心）$ X = X - \bar x$</li>
+<li>计算协方差矩阵 $ S = \frac1N \sum_n x_n x_n^T$</li>
+<li>计算top d 特征值对应的特征向量 $U$(这就是新坐标系)</li>
+<li>$Y=U^TX$（相当于旋转到新坐标系）</li>
+<li>重构原始数据$\hat{X} = UY = UU^TX$</li>
+</ol>
+<p>对于任意一个原坐标系的数据点 $p_x$, $\bar x$为数据均值,则变换后在新坐标系的坐标为：<br><span>$p_y = U^T (p_x - \bar x)$</span><!-- Has MathJax --></p>
+<h3 id="如何选取-d"><a href="#如何选取-d" class="headerlink" title="如何选取$d$"></a>如何选取$d$</h3><span>$$r_i = \frac{\lambda_i}{\sum_{j=1}^p} * 100%\\\
+\sum_{i=1}^d r_i \le threshold$$</span><!-- Has MathJax -->
+<p>这里阈值则是按经验和问题而定，比如$95\%$。</p>
+<h3 id="Theory-of-PCA"><a href="#Theory-of-PCA" class="headerlink" title="Theory of PCA"></a>Theory of PCA</h3><p>PCA的重要理论主要是集中在如何选取投影矩阵上，为什么要选取特征值大的.主要可以从以下几个角度去衡量。</p>
+<ul>
+<li>最大化方差。一个机器学习问题泛泛地讲其实就是给定一个数据集，根据问题从中寻找一些隐含在数据背后的规律和信息,从信息熵的角度上考虑，这些规律和信息都体现在数据的不相关性上也就是方差上，所以我们降维的目的也就可以设置为降解到相同维度上依然能够保留更大的方差。从数学推导中可以求出需要选择最大d个特征值对应的特征向量。</li>
+<li>最小重构误差。 不从方差的角度而是从人类的直觉上来考虑（没错很多方法的思想都是符合人类思维或者是有人类直觉出发灵感而生的），对于维度降解问题，如果降解之后的数据重构会原始数据时，它的误差非常小，即还是能够保留最多的原始信息，那么我们会觉得这个降解是成功的。而PCA得降解是可逆的，这就为这种证明和推导提供了可能，同样从数据上可以证明映射矩阵就是由最大的d个特征值对应的特征向量构成s的。</li>
+<li>概率PCA PPCA becomes PCA when the variance tends to zero</li>
+</ul>
+<h3 id="Dual-PCA-PCA-in-high-dimensions"><a href="#Dual-PCA-PCA-in-high-dimensions" class="headerlink" title="Dual PCA - PCA in high-dimensions"></a>Dual PCA - PCA in high-dimensions</h3><p>考虑这样一种情况，$p&gt;&gt;N$，维度非常高，在求$p\times p$的协方差矩阵特征值特征向量的时候具有$O(p^3)$的复杂度，这使得计算的代价非常大。而我们知道由于只有$N$个数据，协方差矩阵只有最多不超过$N$个非零特征值,所有就想如果$S$和$G=X^TX$矩阵的特征值特征向量有关系就好了，由此引出了对偶PCA。<br>对于均值化了的数据X，有：<br><span>$$S = \frac1N XX^T, \text{有特征值特征向量}(\lambda_i,\mu_i)\\\
+G = X^TX, \text{有特征值特征向量}(\gamma_i,\upsilon_i)\\\
+\mu_i = \frac{1}{\gamma_i}X\upsilon_i$$</span><!-- Has MathJax --></p>
+<h3 id="Kernel-PCA"><a href="#Kernel-PCA" class="headerlink" title="Kernel PCA"></a>Kernel PCA</h3><p>传统的PCA是一种线性映射，也就是说仅仅是通过对坐标系进行平移和旋转操作。如果需要对数据进行非线性的映射，则可以引入核方法：<br><span>$x \to \phi(x)$</span><!-- Has MathJax --><br>然后应用dual PCA的方法：<br><span>$G = \phi(X)^T \phi(X) = [k(x_i, x_j)]_{i,j}$</span><!-- Has MathJax --></p>
+<h2 id="Nonlinear-dimension-Reduction-Manifold-Learning"><a href="#Nonlinear-dimension-Reduction-Manifold-Learning" class="headerlink" title="Nonlinear dimension Reduction(Manifold Learning)"></a>Nonlinear dimension Reduction(Manifold Learning)</h2><p>流型是一种局部具有欧几里得空间性质的空间，是欧几里得空间中曲线、曲面的推广，简单的直观理解：高位欧式空间嵌入的被扭曲的子空间，有一个不错的例子就是一块平铺的布，把它看做一个二维平面，在三维空间中我们把它随便扭一扭，它所构成的空间就是一个流型。流型满足一些好的性质，比如连续的结构，考察任何一个局部(切空间)都可以用一个线性模型来无穷逼近它<br><img src="/images/lle_1.png" alt=""><br>有别于传统欧几里得空间的性质也使得对流型的维度降解有了新的要求，在利用传统的降解方法很容易产生错误，因为我们希望在原本高维空间中靠近的数据点在讲解之后的地位空间中同样靠近。同样有几种方法，这里以LLE和Isomap为例,这两种方法都立足于局部可用欧式距离衡量这一性质。</p>
+<h3 id="Locally-linear-embedding-LLE"><a href="#Locally-linear-embedding-LLE" class="headerlink" title="Locally linear embedding(LLE)"></a>Locally linear embedding(LLE)</h3><p>LLE的核心思想是希望能够保持局部样本的线性关系，在原始空间中每一个样本都可以用局部内的近邻数据点进行线性表示，而降维之后的空间中，仍然希望保持住这种线性表示关系。<br>方法的具体步骤是：</p>
+<ul>
+<li>求解K近邻</li>
+<li>最小化重构误差  <span>$$\min_{W} \epsilon(W) = \sum_i ||x_i - \sum_{j\in N_i}W_{ij}x_j||^2\\\
+s.t. \sum_j W_ij = 1, \forall i$$</span><!-- Has MathJax --></li>
+<li>子空间线性关系保持  <span>$\min_{Y} \phi(Y) = \sum_i ||y_i - \sum_{j\in N_i}W_{ij}y_j||^2$</span><!-- Has MathJax -->
+</li>
+</ul>
+<h3 id="Isomap"><a href="#Isomap" class="headerlink" title="Isomap"></a>Isomap</h3><p>Isomap的思想就是将传统的欧氏直线距离换为了流型的测地距离，也就是沿着流型的距离。当然，如果流型的结构事先不知道的话，Isomap通过利用最近邻点连接起来构成一个邻接图来离散的近似原来的流型，测地距离也就相应地通过图上的最短路径来近似,其中一个数据点距离它的最近邻为其二者的欧氏距离，而距离其余点则为无穷大。</p>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ML/" rel="tag">#ML</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/26/SVM1/" rel="next" title="SVM1">
+                <i class="fa fa-chevron-left"></i> SVM1
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/17/谈谈矩阵/" rel="prev" title="机器学习中的矩阵">
+                机器学习中的矩阵 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/profile.jpg"
+               alt="青衫独醉" />
+          <p class="site-author-name" itemprop="name">青衫独醉</p>
+          <p class="site-description motion-element" itemprop="description">天下豪杰三百万见我也须尽低眉</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么需要维度降解"><span class="nav-number">1.</span> <span class="nav-text">为什么需要维度降解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方法"><span class="nav-number">2.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PCA"><span class="nav-number">2.1.</span> <span class="nav-text">PCA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何选取-d"><span class="nav-number">2.1.1.</span> <span class="nav-text">如何选取$d$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Theory-of-PCA"><span class="nav-number">2.1.2.</span> <span class="nav-text">Theory of PCA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dual-PCA-PCA-in-high-dimensions"><span class="nav-number">2.1.3.</span> <span class="nav-text">Dual PCA - PCA in high-dimensions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kernel-PCA"><span class="nav-number">2.1.4.</span> <span class="nav-text">Kernel PCA</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nonlinear-dimension-Reduction-Manifold-Learning"><span class="nav-number">2.2.</span> <span class="nav-text">Nonlinear dimension Reduction(Manifold Learning)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Locally-linear-embedding-LLE"><span class="nav-number">2.2.1.</span> <span class="nav-text">Locally linear embedding(LLE)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Isomap"><span class="nav-number">2.2.2.</span> <span class="nav-text">Isomap</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">青衫独醉</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+
+
+<!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+</body>
+</html>
