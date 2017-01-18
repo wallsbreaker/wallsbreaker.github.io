@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>青衫独醉</title>
+  <title>青衫</title>
   
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wallsbreaker.github.io/"/>
-  <updated>2016-03-17T14:47:31.000Z</updated>
+  <updated>2017-01-18T05:11:44.000Z</updated>
   <id>http://wallsbreaker.github.io/</id>
   
   <author>
@@ -16,38 +16,43 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>机器学习中的矩阵</title>
-    <link href="http://wallsbreaker.github.io/2016/03/17/%E8%B0%88%E8%B0%88%E7%9F%A9%E9%98%B5/"/>
-    <id>http://wallsbreaker.github.io/2016/03/17/谈谈矩阵/</id>
-    <published>2016-03-17T09:05:56.000Z</published>
-    <updated>2016-03-17T14:47:31.000Z</updated>
+    <title>SVM</title>
+    <link href="http://wallsbreaker.github.io/2017/01/18/SVM/"/>
+    <id>http://wallsbreaker.github.io/2017/01/18/SVM/</id>
+    <published>2017-01-18T05:10:36.000Z</published>
+    <updated>2017-01-18T05:11:44.000Z</updated>
     
-    <content type="html">&lt;p&gt;矩阵在现代工程中的应用之广不言而喻，关于矩阵的理解仅仅停留在本科线性代数知道定义会计算的层次是不够的，这里结合自己的理解和学习的内容谈谈矩阵。&lt;/p&gt;
-&lt;h1 id=&quot;矩阵是什么&quot;&gt;&lt;a href=&quot;#矩阵是什么&quot; class=&quot;headerlink&quot; title=&quot;矩阵是什么&quot;&gt;&lt;/a&gt;矩阵是什么&lt;/h1&gt;&lt;p&gt;从形式上来看，一维的是向量，将向量按行按列组织起来形成二维的就是矩阵，继续走的话还有张量，当然张量一般研究的不是太多，因为更多的应用还是在矩阵，而且矩阵的好多性质和规律是可以推广到张量的，所以一般的研究主体还是矩阵。那矩阵到底是什么，这还要从向量说起。&lt;br&gt;向量是什么，一个有方向有大小的几何对象，通俗的说是给定坐标系上的一个坐标，空间中的一个点。从工程的角度讲，坐标系就是我们定义好的各种属性维度，实体可以用一个向量刻画，因为我们只要知道这个实体在我们定义好的关心的属性维度上的值就可以了，我们可以带着这个有值得向量做各种想做的事情。而矩阵，不仅可以看做是为了方便多个向量的组织而放在了一起，尤其做矩阵运算的时候，这个时候的矩阵实际上是表示一个线性变换，将空间上的一个点变换到另一个点（从变换坐标系的角度也是一样），变换的主要方式主要包括缩放，旋转，投影。缩放和旋转比较好理解，投影的话则是因为该矩阵不是方阵，变换之后向量的维度发生了变化，空间变了，也就是从该空间投影到了另外的一个空间，其中矩阵的秩的意义即为投影维度的变化。正交矩阵的特殊在于它只是做旋转变换。&lt;br&gt;$$&lt;br&gt;Au = v&lt;br&gt;$$&lt;br&gt;在同一个坐标系上来讲，通过左乘$A$矩阵把$u$变换成了$v$。乘上矩阵的话也是一样，相当于对很多列向量做变换，从这点出发，就可以理解为什么矩阵的乘法要定义成那样做。后续很多矩阵的相关概念立足于矩阵是一种变换这个基础就会比较好理解。&lt;/p&gt;
-&lt;h1 id=&quot;特征值与奇异值&quot;&gt;&lt;a href=&quot;#特征值与奇异值&quot; class=&quot;headerlink&quot; title=&quot;特征值与奇异值&quot;&gt;&lt;/a&gt;特征值与奇异值&lt;/h1&gt;&lt;h2 id=&quot;特征值&quot;&gt;&lt;a href=&quot;#特征值&quot; class=&quot;headerlink&quot; title=&quot;特征值&quot;&gt;&lt;/a&gt;特征值&lt;/h2&gt;&lt;p&gt;$$&lt;br&gt;Au = v&lt;br&gt;$$&lt;br&gt;向量$u$和$v$有没有没有可能恰好同向或反向呢？答案是有可能的，也就是我们学过的特征值的定义：&lt;br&gt;$$&lt;br&gt;Av = \lambda v&lt;br&gt;$$&lt;br&gt;这中方向$v$的个数是有限的，当矩阵$A$作用于这些方向时，就相当于只是对其做了一个缩放，当然这个缩放有正有负，也有可鞥是0。因为这些方向的稀有性，我们可以把他们单独拿出来做研究，是不是有什么良好的性质或用途呢？起个名字吧，叫特征向量，当然也有翻译成本征向量的，其实这个名字更形象，矩阵既然是个变换，这种具有不变形的方向就是它的本质属性之一嘛，缩放的比例也就称为特征值或本征值。特征值越大说明矩阵在这个方向上的能量越大，PCA中选取特征值大的特征向量做投影就是希望能够尽量保持足够大的信息量。&lt;/p&gt;
-&lt;h2 id=&quot;奇异值&quot;&gt;&lt;a href=&quot;#奇异值&quot; class=&quot;headerlink&quot; title=&quot;奇异值&quot;&gt;&lt;/a&gt;奇异值&lt;/h2&gt;&lt;p&gt;特征值和特征向量都是对方阵而言的，不是方阵的话有没有这种能够衡量矩阵属性的概念呢？也是有的，那就是奇异值，任何矩阵都可以析构为这样一种形式：&lt;br&gt;$$&lt;br&gt;A = \mu \Sigma \sigma ^T&lt;br&gt;$$&lt;br&gt;这成为奇异值分解，其中$\mu$和$sigma$为正交矩阵，$\Sigma$为只含对角线元素的矩阵，对角线的值为奇异值，它表示$A$矩阵的作用是将一个向量从$\sigma$这组基变换到$u$这组基向量空间中去，这个变换包含了旋转、缩放和投影，其中奇异值也就缩放因子，其中不为0的个数为矩阵的秩。因为矩阵的行列式的绝对值（体积）为所有奇异值的积，如果有一个为0，矩阵则奇异，这也就是命名为奇异值的原因。其中矩阵的谱范数就是最大奇异值&lt;br&gt;事实上，奇异值刻画了矩阵的奇异性，也就是其行或列的线性相关性，相关性越强，则非奇异矩阵接近奇异的，最小的奇异值越小，条件数(最大最小奇异值之比)越大，如果其行或列相关了，那么矩阵也就变成了奇异的，最小的奇异值是0，条件数无穷大。一个矩阵的奇异值是固定的，而左右奇异向量则是不定的，可以找到多种形式。&lt;/p&gt;
-&lt;h2 id=&quot;特征值与奇异值的异同&quot;&gt;&lt;a href=&quot;#特征值与奇异值的异同&quot; class=&quot;headerlink&quot; title=&quot;特征值与奇异值的异同&quot;&gt;&lt;/a&gt;特征值与奇异值的异同&lt;/h2&gt;&lt;p&gt;首先从形式上来说，奇异值适用于任何矩阵，而特征值则只是针对方阵而言的。事实上，即使对于同一个方阵来说，特征值与奇异值之间也没有什么内在的关系，但是$m \times n$的非零奇异值是$A^TA$或$AA^T$非零特征值的正平方根。&lt;/p&gt;
-&lt;h1 id=&quot;特征值分解与奇异值分解&quot;&gt;&lt;a href=&quot;#特征值分解与奇异值分解&quot; class=&quot;headerlink&quot; title=&quot;特征值分解与奇异值分解&quot;&gt;&lt;/a&gt;特征值分解与奇异值分解&lt;/h1&gt;&lt;p&gt;特征值分解或奇异值分解有很多用途，比如节省存储（分解成了三个小矩阵）、降维(如上一节PCA所述)、去噪（小奇异值很有可能是噪音，去掉了会更好）、推荐(SVD)等。另外， 以特征值分解为例，可以更好帮助我们理解特征向量为什么刻画了矩阵的本质方向，为了更好的说明，以对称矩阵（总能相似对角化，特征向量相互正交）为例。&lt;br&gt;当个特征值和特征向量有：&lt;br&gt;$$&lt;br&gt;A x_i = \lambda_i x_i&lt;br&gt;$$&lt;br&gt;全部特征值和特征向量写成矩阵的形式则是：&lt;br&gt;$$&lt;br&gt;AU = U\wedge&lt;br&gt;$$&lt;br&gt;其中$U$作为正交矩阵，所以可以写为：&lt;br&gt;$$&lt;br&gt;A = U\wedge U^{-1} = U\wedge U^T&lt;br&gt;$$&lt;br&gt;当矩阵用作线性变化时，有：&lt;br&gt;$$&lt;br&gt;Ax = U\wedge U^Tx&lt;br&gt;$$&lt;br&gt;其中向量$x$可以用$U$作为坐标系表示为：&lt;br&gt;$$&lt;br&gt;x = a_1x_1 + a_2x_2 + \dots + a_mx_m&lt;br&gt;$$&lt;br&gt;所以有&lt;br&gt;$$&lt;br&gt;U\wedge U^T x = U\wedge[a_1, a_2, \dots, a_m]^T\\&lt;br&gt;=U[\lambda_1a_1, \lambda_2a_2, \dots, \lambda_ma_m]^T&lt;br&gt;$$&lt;br&gt;写到这，就可以更清楚地借助特征值特征向量看出矩阵到底在做一个什么样的变化。&lt;/p&gt;
+    <content type="html">&lt;p&gt;SVM是一种无论从研究还是应用上都非常有价值的模型，它的效果非常好，尤其是 在解决小样本、非线性以及高纬数据中表现出了较之以前的方法不曾有的优势， 但是它的基本模型仍然是一个简单的线性分类模型，Max-margin的思想让它 区别于感知器，软间隔和核方法让SVM也同样适用于线性不可分的样本和非线性 模型。&lt;/p&gt;
+&lt;h2 id=&quot;线性可分SVM&quot;&gt;&lt;a href=&quot;#线性可分SVM&quot; class=&quot;headerlink&quot; title=&quot;线性可分SVM&quot;&gt;&lt;/a&gt;线性可分SVM&lt;/h2&gt;&lt;p&gt;一般地，当样本线性可分的时候，存在无数个分离面使得正负样本可以正确分类， 比如感知器的目标是误分类的样本点最少，如下图示例，当许多分离面都可以 正确分类时，它便无所适从。抛开模型单凭人类直觉的话，其实我们都会 觉得红色的分类面（线，面，超平面在后续的描述中将不做特意区分）更好，但 具体好在什么地方，就需要静下心来慢慢谈了。SVM利用间隔最大化得思想就 使得它可以选择出这条红色的最好的分类面。这也从侧面告诉我们一个经验， 那就是能够更好解决问题的模型或结果不一定多么复杂，但往往都比较符合 人类的直觉。也是，机器学习不就是想去模拟学习人的思考过程吗。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/svm_1.png&quot; alt=&quot;二类分类问题图示&quot;&gt;&lt;/p&gt;
+&lt;p&gt;首先我们来明确一下间隔的含义，在中学数学中我们经常说的距离：点到直线 的距离，点到面的距离，这里的距离称之为函数间隔。超平面$(w,b)$关于样本点 $(x_i, y_i)$的函数距离间隔为：&lt;br&gt;$$\hat{y_i}=|w \cdot x_i + b| $$&lt;br&gt;对于二类分类问题， 正例标签$y_i=1$负例标签$y_i=-1$，可以把上式写为:&lt;br&gt;$$\hat{y_i}=y_i(w \cdot x_i + b)$$&lt;br&gt;仅仅是函数间隔还是不够的，因为只要成比例的放大$w, b$，分类面不变，但函数 间隔却会放大，在间隔最大化的优化过程求解中，函数间隔的这个性质使得 它变得不适用。由此引出的几何间隔考虑了$w$的因素，则完全没有这个问题。 超平面$(w,b)$关于样本点 $(x_i, y_i)$的几何间隔：&lt;br&gt;$$y_i=\frac{1}{||w||}y_i(w \cdot x_i + b)$$&lt;br&gt;定义该超平面关于整个训练集$T$的几何间隔为所有样本点的最小值，即：&lt;br&gt;$$y = \min \quad y_i,i = 1,\cdot,N $$&lt;br&gt;对于二类的线性可分情况，SVM的基本想法就是求解能够正确划分训练数据集并且与支持向量几何间隔最大的 超平面，这个超平面是唯一的.几何间隔越大即意味着有更大的确信度来对训练数据 进行分类，这使得不仅能够正确分类，而且对于训练数据中最难分的实例也能以 尽量大的可信度来将他们分来，这不仅是对训练数据更好的解释，也提高了模型 对未来未知数据正确预测的能力。&lt;/p&gt;
+&lt;h2 id=&quot;形式化描述&quot;&gt;&lt;a href=&quot;#形式化描述&quot; class=&quot;headerlink&quot; title=&quot;形式化描述&quot;&gt;&lt;/a&gt;形式化描述&lt;/h2&gt;&lt;p&gt;将最大化几何间隔表述为规划问题即：&lt;br&gt;$$\max \quad y\\&lt;br&gt;s.t. \quad \frac{1}{||w||} y_i (w \cdot x_i + b) \ge y, \quad i=1,\dots,N$$&lt;br&gt;我们知道几何间隔与函数间隔有个$||w||$倍的缩放，所以上式可以变形为:&lt;br&gt;$$\max \quad \frac{\hat{y}}{||w||}\\&lt;br&gt;s.t. \quad y_i (w \cdot x_i + b) \ge \hat{y}, \quad i=1,\dots,N$$&lt;br&gt;在约束条件中，我们要求所有样本点的函数距离都需要大于一个最小值，我们也知道 函数间隔的值是可以通过$w$来缩放调节的，所以这个最小值到底取值为多少对问题并没有影响，设$\hat{y}=1$，代入上式并对目标函数乘$\frac12$（为后续变形方便）：&lt;br&gt;$$\min \quad \frac12 ||w||^2\\&lt;br&gt;s.t. \quad y_i (w \cdot x_i + b) - 1 \ge 0, \quad i=1,\dots,N$$&lt;br&gt;到这里，我们就得到了线性二类分类SVM的形式化描述，需要注意的是，在约束条件中只有等号成立时的样本点才会起作用，这一点会在后续的对偶中详细解释，这些样本点即离分类超平面最近的一些点，称之为支持向量，SVM便是由这些“重要的”样本点确定的。&lt;br&gt;构造好了最优化问题，求得最优解$w^*,b^*$得到分离超平面：&lt;br&gt;$$w^* x + b^* = 0$$&lt;br&gt;分类决策函数：&lt;br&gt;$$f(x) = sign(w^* x + b^*)$$&lt;/p&gt;
+&lt;h2 id=&quot;对偶学习算法&quot;&gt;&lt;a href=&quot;#对偶学习算法&quot; class=&quot;headerlink&quot; title=&quot;对偶学习算法&quot;&gt;&lt;/a&gt;对偶学习算法&lt;/h2&gt;&lt;p&gt;在上面我们得到了形式化的最优化问题表述，通过求解就能够得到分类决策函数，但是这样直接求解往往比较困难，于是通过拉格朗日对偶来求解对偶问题从而得到原始问题的最优解，因为对偶问题往往更容易求解，引入对偶的另外一个好处就是可能更方便的引入核函数。拉格朗日变换可得：&lt;br&gt;&lt;span&gt;$$\max_\alpha \min_{w,b} L(w,b,\alpha)\\
+L(w,b,\alpha) = \frac12 ||w||^2 - \sum_{i=1|}^N \alpha_i y_i(wx_i+b)+\sum_{i=1}^N \alpha_i$$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;br&gt;首先求&lt;span&gt;$\min \limits_{w,b} L(w,b,\alpha)$&lt;/span&gt;&lt;!-- Has MathJax --&gt; 将拉格朗日函数分别对$w,b$求偏导并令其等于$0$得:&lt;br&gt;&lt;span&gt;$$w = \sum_{i=1}^N \alpha_i y_i x_i\\
+\sum_{i=1}^N \alpha_i y_i = 0$$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;br&gt;代入得：&lt;br&gt;&lt;span&gt;$$\min \limits_{w,b} L(w,b,\alpha) = -\frac12 \sum_{i=1}^N\sum_{j=1}^N \alpha_i
+\alpha_j y_i y_j (x_i \dot x_j) + \sum_{i=1}^N \alpha_i$$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;br&gt;带入刚开始的对偶问题得:&lt;br&gt;&lt;span&gt;$$\max_\alpha \frac12 \sum_{i=1}^N\sum_{j=1}^N \alpha_i
+\alpha_j y_i y_j (x_i \dot x_j) - \sum_{i=1}^N \alpha_i\\
+s.t. \sum_{i=1}^N \alpha_i y_i = 0 \\
+\qquad \alpha_i \ge 0, i = 1,2,\dots,N$$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;br&gt;有最优化知识可知，这两个等价的原始和对偶问题有相同的解，即存在&lt;span&gt;$\alpha^*$&lt;/span&gt;&lt;!-- Has MathJax --&gt;是对偶问题的解，由它而得到&lt;span&gt;$w^*$&lt;/span&gt;&lt;!-- Has MathJax --&gt;是原始问题的解法，得到了&lt;span&gt;$w^*$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;br&gt;带入一个支持向量则很容易得到&lt;span&gt;$b^*$&lt;/span&gt;&lt;!-- Has MathJax --&gt;的值，由KKT条件可知：&lt;br&gt;&lt;span&gt;$w^* = \sum_{i=1}^N \alpha_i^* y_i x_i$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;br&gt;代入，故分类平面可以写作：&lt;br&gt;&lt;span&gt;$\sum_{i=1}^N \alpha_i^* y_i (x \dot x_i) + b^* = 0$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;br&gt;分类决策函数为：&lt;br&gt;&lt;span&gt;$f(x) = sign(\sum_{i=1}^N \alpha_i^* y_i (x \dot x_i) + b^*)$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;/p&gt;
 </content>
     
     <summary type="html">
     
-      &lt;p&gt;矩阵在现代工程中的应用之广不言而喻，关于矩阵的理解仅仅停留在本科线性代数知道定义会计算的层次是不够的，这里结合自己的理解和学习的内容谈谈矩阵。&lt;/p&gt;
-&lt;h1 id=&quot;矩阵是什么&quot;&gt;&lt;a href=&quot;#矩阵是什么&quot; class=&quot;headerlink&quot; title=&quot;矩阵是
+      &lt;p&gt;SVM是一种无论从研究还是应用上都非常有价值的模型，它的效果非常好，尤其是 在解决小样本、非线性以及高纬数据中表现出了较之以前的方法不曾有的优势， 但是它的基本模型仍然是一个简单的线性分类模型，Max-margin的思想让它 区别于感知器，软间隔和核方法让SVM也同样适用于
     
     </summary>
     
     
-      <category term="Math" scheme="http://wallsbreaker.github.io/tags/Math/"/>
+      <category term="ML" scheme="http://wallsbreaker.github.io/tags/ML/"/>
     
   </entry>
   
   <entry>
-    <title>维度降解</title>
-    <link href="http://wallsbreaker.github.io/2016/03/08/%E7%BB%B4%E5%BA%A6%E9%99%8D%E8%A7%A3/"/>
-    <id>http://wallsbreaker.github.io/2016/03/08/维度降解/</id>
-    <published>2016-03-08T02:36:57.000Z</published>
-    <updated>2016-03-24T01:00:03.000Z</updated>
+    <title>漫谈PCA</title>
+    <link href="http://wallsbreaker.github.io/2017/01/14/%E6%BC%AB%E8%B0%88PCA/"/>
+    <id>http://wallsbreaker.github.io/2017/01/14/漫谈PCA/</id>
+    <published>2017-01-14T11:19:35.000Z</published>
+    <updated>2017-01-18T05:14:40.000Z</updated>
     
     <content type="html">&lt;p&gt;维度降解是一个在机器学习应用或者数据挖掘领域非常常见的一个方法和概念，它的含义很直白，就是要将数据从原本所在的高维空间映射到低维空间中去。理解维度降解需要从两个方面：&lt;/p&gt;
 &lt;ul&gt;
@@ -116,34 +121,27 @@ s.t. \sum_j W_ij = 1, \forall i$$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;/li&
   </entry>
   
   <entry>
-    <title>SVM1</title>
-    <link href="http://wallsbreaker.github.io/2016/02/26/SVM1/"/>
-    <id>http://wallsbreaker.github.io/2016/02/26/SVM1/</id>
-    <published>2016-02-26T03:56:01.000Z</published>
-    <updated>2016-03-31T03:19:37.000Z</updated>
+    <title>机器学习中的矩阵</title>
+    <link href="http://wallsbreaker.github.io/2017/01/07/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E7%9F%A9%E9%98%B5/"/>
+    <id>http://wallsbreaker.github.io/2017/01/07/机器学习中的矩阵/</id>
+    <published>2017-01-07T13:07:06.000Z</published>
+    <updated>2017-01-18T05:14:20.000Z</updated>
     
-    <content type="html">&lt;p&gt;SVM是一种无论从研究还是应用上都非常有价值的模型，它的效果非常好，尤其是 在解决小样本、非线性以及高纬数据中表现出了较之以前的方法不曾有的优势， 但是它的基本模型仍然是一个简单的线性分类模型，Max-margin的思想让它 区别于感知器，软间隔和核方法让SVM也同样适用于线性不可分的样本和非线性 模型。&lt;/p&gt;
-&lt;h2 id=&quot;线性可分SVM&quot;&gt;&lt;a href=&quot;#线性可分SVM&quot; class=&quot;headerlink&quot; title=&quot;线性可分SVM&quot;&gt;&lt;/a&gt;线性可分SVM&lt;/h2&gt;&lt;p&gt;一般地，当样本线性可分的时候，存在无数个分离面使得正负样本可以正确分类， 比如感知器的目标是误分类的样本点最少，如下图示例，当许多分离面都可以 正确分类时，它便无所适从。抛开模型单凭人类直觉的话，其实我们都会 觉得红色的分类面（线，面，超平面在后续的描述中将不做特意区分）更好，但 具体好在什么地方，就需要静下心来慢慢谈了。SVM利用间隔最大化得思想就 使得它可以选择出这条红色的最好的分类面。这也从侧面告诉我们一个经验， 那就是能够更好解决问题的模型或结果不一定多么复杂，但往往都比较符合 人类的直觉。也是，机器学习不就是想去模拟学习人的思考过程吗。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/images/svm_1.png&quot; alt=&quot;二类分类问题图示&quot;&gt;&lt;/p&gt;
-&lt;p&gt;首先我们来明确一下间隔的含义，在中学数学中我们经常说的距离：点到直线 的距离，点到面的距离，这里的距离称之为函数间隔。超平面$(w,b)$关于样本点 $(x_i, y_i)$的函数距离间隔为：&lt;br&gt;$$\hat{y_i}=|w \cdot x_i + b| $$&lt;br&gt;对于二类分类问题， 正例标签$y_i=1$负例标签$y_i=-1$，可以把上式写为:&lt;br&gt;$$\hat{y_i}=y_i(w \cdot x_i + b)$$&lt;br&gt;仅仅是函数间隔还是不够的，因为只要成比例的放大$w, b$，分类面不变，但函数 间隔却会放大，在间隔最大化的优化过程求解中，函数间隔的这个性质使得 它变得不适用。由此引出的几何间隔考虑了$w$的因素，则完全没有这个问题。 超平面$(w,b)$关于样本点 $(x_i, y_i)$的几何间隔：&lt;br&gt;$$y_i=\frac{1}{||w||}y_i(w \cdot x_i + b)$$&lt;br&gt;定义该超平面关于整个训练集$T$的几何间隔为所有样本点的最小值，即：&lt;br&gt;$$y = \min \quad y_i,i = 1,\cdot,N $$&lt;br&gt;对于二类的线性可分情况，SVM的基本想法就是求解能够正确划分训练数据集并且与支持向量几何间隔最大的 超平面，这个超平面是唯一的.几何间隔越大即意味着有更大的确信度来对训练数据 进行分类，这使得不仅能够正确分类，而且对于训练数据中最难分的实例也能以 尽量大的可信度来将他们分来，这不仅是对训练数据更好的解释，也提高了模型 对未来未知数据正确预测的能力。&lt;/p&gt;
-&lt;h2 id=&quot;形式化描述&quot;&gt;&lt;a href=&quot;#形式化描述&quot; class=&quot;headerlink&quot; title=&quot;形式化描述&quot;&gt;&lt;/a&gt;形式化描述&lt;/h2&gt;&lt;p&gt;将最大化几何间隔表述为规划问题即：&lt;br&gt;$$\max \quad y\\&lt;br&gt;s.t. \quad \frac{1}{||w||} y_i (w \cdot x_i + b) \ge y, \quad i=1,\dots,N$$&lt;br&gt;我们知道几何间隔与函数间隔有个$||w||$倍的缩放，所以上式可以变形为:&lt;br&gt;$$\max \quad \frac{\hat{y}}{||w||}\\&lt;br&gt;s.t. \quad y_i (w \cdot x_i + b) \ge \hat{y}, \quad i=1,\dots,N$$&lt;br&gt;在约束条件中，我们要求所有样本点的函数距离都需要大于一个最小值，我们也知道 函数间隔的值是可以通过$w$来缩放调节的，所以这个最小值到底取值为多少对问题并没有影响，设$\hat{y}=1$，代入上式并对目标函数乘$\frac12$（为后续变形方便）：&lt;br&gt;$$\min \quad \frac12 ||w||^2\\&lt;br&gt;s.t. \quad y_i (w \cdot x_i + b) - 1 \ge 0, \quad i=1,\dots,N$$&lt;br&gt;到这里，我们就得到了线性二类分类SVM的形式化描述，需要注意的是，在约束条件中只有等号成立时的样本点才会起作用，这一点会在后续的对偶中详细解释，这些样本点即离分类超平面最近的一些点，称之为支持向量，SVM便是由这些“重要的”样本点确定的。&lt;br&gt;构造好了最优化问题，求得最优解$w^*,b^*$得到分离超平面：&lt;br&gt;$$w^* x + b^* = 0$$&lt;br&gt;分类决策函数：&lt;br&gt;$$f(x) = sign(w^* x + b^*)$$&lt;/p&gt;
-&lt;h2 id=&quot;对偶学习算法&quot;&gt;&lt;a href=&quot;#对偶学习算法&quot; class=&quot;headerlink&quot; title=&quot;对偶学习算法&quot;&gt;&lt;/a&gt;对偶学习算法&lt;/h2&gt;&lt;p&gt;在上面我们得到了形式化的最优化问题表述，通过求解就能够得到分类决策函数，但是这样直接求解往往比较困难，于是通过拉格朗日对偶来求解对偶问题从而得到原始问题的最优解，因为对偶问题往往更容易求解，引入对偶的另外一个好处就是可能更方便的引入核函数。拉格朗日变换可得：&lt;br&gt;&lt;span&gt;$$\max_\alpha \min_{w,b} L(w,b,\alpha)\\
-L(w,b,\alpha) = \frac12 ||w||^2 - \sum_{i=1|}^N \alpha_i y_i(wx_i+b)+\sum_{i=1}^N \alpha_i$$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;br&gt;首先求&lt;span&gt;$\min \limits_{w,b} L(w,b,\alpha)$&lt;/span&gt;&lt;!-- Has MathJax --&gt; 将拉格朗日函数分别对$w,b$求偏导并令其等于$0$得:&lt;br&gt;&lt;span&gt;$$w = \sum_{i=1}^N \alpha_i y_i x_i\\
-\sum_{i=1}^N \alpha_i y_i = 0$$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;br&gt;代入得：&lt;br&gt;&lt;span&gt;$$\min \limits_{w,b} L(w,b,\alpha) = -\frac12 \sum_{i=1}^N\sum_{j=1}^N \alpha_i
-\alpha_j y_i y_j (x_i \dot x_j) + \sum_{i=1}^N \alpha_i$$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;br&gt;带入刚开始的对偶问题得:&lt;br&gt;&lt;span&gt;$$\max_\alpha \frac12 \sum_{i=1}^N\sum_{j=1}^N \alpha_i
-\alpha_j y_i y_j (x_i \dot x_j) - \sum_{i=1}^N \alpha_i\\
-s.t. \sum_{i=1}^N \alpha_i y_i = 0 \\
-\qquad \alpha_i \ge 0, i = 1,2,\dots,N$$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;br&gt;有最优化知识可知，这两个等价的原始和对偶问题有相同的解，即存在&lt;span&gt;$\alpha^*$&lt;/span&gt;&lt;!-- Has MathJax --&gt;是对偶问题的解，由它而得到&lt;span&gt;$w^*$&lt;/span&gt;&lt;!-- Has MathJax --&gt;是原始问题的解法，得到了&lt;span&gt;$w^*$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;br&gt;带入一个支持向量则很容易得到&lt;span&gt;$b^*$&lt;/span&gt;&lt;!-- Has MathJax --&gt;的值，由KKT条件可知：&lt;br&gt;&lt;span&gt;$w^* = \sum_{i=1}^N \alpha_i^* y_i x_i$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;br&gt;代入，故分类平面可以写作：&lt;br&gt;&lt;span&gt;$\sum_{i=1}^N \alpha_i^* y_i (x \dot x_i) + b^* = 0$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;br&gt;分类决策函数为：&lt;br&gt;&lt;span&gt;$f(x) = sign(\sum_{i=1}^N \alpha_i^* y_i (x \dot x_i) + b^*)$&lt;/span&gt;&lt;!-- Has MathJax --&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;矩阵在现代工程中的应用之广不言而喻，关于矩阵的理解仅仅停留在本科线性代数知道定义会计算的层次是不够的，这里结合自己的理解和学习的内容谈谈矩阵。&lt;/p&gt;
+&lt;h1 id=&quot;矩阵是什么&quot;&gt;&lt;a href=&quot;#矩阵是什么&quot; class=&quot;headerlink&quot; title=&quot;矩阵是什么&quot;&gt;&lt;/a&gt;矩阵是什么&lt;/h1&gt;&lt;p&gt;从形式上来看，一维的是向量，将向量按行按列组织起来形成二维的就是矩阵，继续走的话还有张量，当然张量一般研究的不是太多，因为更多的应用还是在矩阵，而且矩阵的好多性质和规律是可以推广到张量的，所以一般的研究主体还是矩阵。那矩阵到底是什么，这还要从向量说起。&lt;br&gt;向量是什么，一个有方向有大小的几何对象，通俗的说是给定坐标系上的一个坐标，空间中的一个点。从工程的角度讲，坐标系就是我们定义好的各种属性维度，实体可以用一个向量刻画，因为我们只要知道这个实体在我们定义好的关心的属性维度上的值就可以了，我们可以带着这个有值得向量做各种想做的事情。而矩阵，不仅可以看做是为了方便多个向量的组织而放在了一起，尤其做矩阵运算的时候，这个时候的矩阵实际上是表示一个线性变换，将空间上的一个点变换到另一个点（从变换坐标系的角度也是一样），变换的主要方式主要包括缩放，旋转，投影。缩放和旋转比较好理解，投影的话则是因为该矩阵不是方阵，变换之后向量的维度发生了变化，空间变了，也就是从该空间投影到了另外的一个空间，其中矩阵的秩的意义即为投影维度的变化。正交矩阵的特殊在于它只是做旋转变换。&lt;br&gt;$$&lt;br&gt;Au = v&lt;br&gt;$$&lt;br&gt;在同一个坐标系上来讲，通过左乘$A$矩阵把$u$变换成了$v$。乘上矩阵的话也是一样，相当于对很多列向量做变换，从这点出发，就可以理解为什么矩阵的乘法要定义成那样做。后续很多矩阵的相关概念立足于矩阵是一种变换这个基础就会比较好理解。&lt;/p&gt;
+&lt;h1 id=&quot;特征值与奇异值&quot;&gt;&lt;a href=&quot;#特征值与奇异值&quot; class=&quot;headerlink&quot; title=&quot;特征值与奇异值&quot;&gt;&lt;/a&gt;特征值与奇异值&lt;/h1&gt;&lt;h2 id=&quot;特征值&quot;&gt;&lt;a href=&quot;#特征值&quot; class=&quot;headerlink&quot; title=&quot;特征值&quot;&gt;&lt;/a&gt;特征值&lt;/h2&gt;&lt;p&gt;$$&lt;br&gt;Au = v&lt;br&gt;$$&lt;br&gt;向量$u$和$v$有没有没有可能恰好同向或反向呢？答案是有可能的，也就是我们学过的特征值的定义：&lt;br&gt;$$&lt;br&gt;Av = \lambda v&lt;br&gt;$$&lt;br&gt;这中方向$v$的个数是有限的，当矩阵$A$作用于这些方向时，就相当于只是对其做了一个缩放，当然这个缩放有正有负，也有可鞥是0。因为这些方向的稀有性，我们可以把他们单独拿出来做研究，是不是有什么良好的性质或用途呢？起个名字吧，叫特征向量，当然也有翻译成本征向量的，其实这个名字更形象，矩阵既然是个变换，这种具有不变形的方向就是它的本质属性之一嘛，缩放的比例也就称为特征值或本征值。特征值越大说明矩阵在这个方向上的能量越大，PCA中选取特征值大的特征向量做投影就是希望能够尽量保持足够大的信息量。&lt;/p&gt;
+&lt;h2 id=&quot;奇异值&quot;&gt;&lt;a href=&quot;#奇异值&quot; class=&quot;headerlink&quot; title=&quot;奇异值&quot;&gt;&lt;/a&gt;奇异值&lt;/h2&gt;&lt;p&gt;特征值和特征向量都是对方阵而言的，不是方阵的话有没有这种能够衡量矩阵属性的概念呢？也是有的，那就是奇异值，任何矩阵都可以析构为这样一种形式：&lt;br&gt;$$&lt;br&gt;A = \mu \Sigma \sigma ^T&lt;br&gt;$$&lt;br&gt;这成为奇异值分解，其中$\mu$和$sigma$为正交矩阵，$\Sigma$为只含对角线元素的矩阵，对角线的值为奇异值，它表示$A$矩阵的作用是将一个向量从$\sigma$这组基变换到$u$这组基向量空间中去，这个变换包含了旋转、缩放和投影，其中奇异值也就缩放因子，其中不为0的个数为矩阵的秩。因为矩阵的行列式的绝对值（体积）为所有奇异值的积，如果有一个为0，矩阵则奇异，这也就是命名为奇异值的原因。其中矩阵的谱范数就是最大奇异值&lt;br&gt;事实上，奇异值刻画了矩阵的奇异性，也就是其行或列的线性相关性，相关性越强，则非奇异矩阵接近奇异的，最小的奇异值越小，条件数(最大最小奇异值之比)越大，如果其行或列相关了，那么矩阵也就变成了奇异的，最小的奇异值是0，条件数无穷大。一个矩阵的奇异值是固定的，而左右奇异向量则是不定的，可以找到多种形式。&lt;/p&gt;
+&lt;h2 id=&quot;特征值与奇异值的异同&quot;&gt;&lt;a href=&quot;#特征值与奇异值的异同&quot; class=&quot;headerlink&quot; title=&quot;特征值与奇异值的异同&quot;&gt;&lt;/a&gt;特征值与奇异值的异同&lt;/h2&gt;&lt;p&gt;首先从形式上来说，奇异值适用于任何矩阵，而特征值则只是针对方阵而言的。事实上，即使对于同一个方阵来说，特征值与奇异值之间也没有什么内在的关系，但是$m \times n$的非零奇异值是$A^TA$或$AA^T$非零特征值的正平方根。&lt;/p&gt;
+&lt;h1 id=&quot;特征值分解与奇异值分解&quot;&gt;&lt;a href=&quot;#特征值分解与奇异值分解&quot; class=&quot;headerlink&quot; title=&quot;特征值分解与奇异值分解&quot;&gt;&lt;/a&gt;特征值分解与奇异值分解&lt;/h1&gt;&lt;p&gt;特征值分解或奇异值分解有很多用途，比如节省存储（分解成了三个小矩阵）、降维(如上一节PCA所述)、去噪（小奇异值很有可能是噪音，去掉了会更好）、推荐(SVD)等。另外， 以特征值分解为例，可以更好帮助我们理解特征向量为什么刻画了矩阵的本质方向，为了更好的说明，以对称矩阵（总能相似对角化，特征向量相互正交）为例。&lt;br&gt;当个特征值和特征向量有：&lt;br&gt;$$&lt;br&gt;A x_i = \lambda_i x_i&lt;br&gt;$$&lt;br&gt;全部特征值和特征向量写成矩阵的形式则是：&lt;br&gt;$$&lt;br&gt;AU = U\wedge&lt;br&gt;$$&lt;br&gt;其中$U$作为正交矩阵，所以可以写为：&lt;br&gt;$$&lt;br&gt;A = U\wedge U^{-1} = U\wedge U^T&lt;br&gt;$$&lt;br&gt;当矩阵用作线性变化时，有：&lt;br&gt;$$&lt;br&gt;Ax = U\wedge U^Tx&lt;br&gt;$$&lt;br&gt;其中向量$x$可以用$U$作为坐标系表示为：&lt;br&gt;$$&lt;br&gt;x = a_1x_1 + a_2x_2 + \dots + a_mx_m&lt;br&gt;$$&lt;br&gt;所以有&lt;br&gt;$$&lt;br&gt;U\wedge U^T x = U\wedge[a_1, a_2, \dots, a_m]^T\\&lt;br&gt;=U[\lambda_1a_1, \lambda_2a_2, \dots, \lambda_ma_m]^T&lt;br&gt;$$&lt;br&gt;写到这，就可以更清楚地借助特征值特征向量看出矩阵到底在做一个什么样的变化。&lt;/p&gt;
 </content>
     
     <summary type="html">
     
-      &lt;p&gt;SVM是一种无论从研究还是应用上都非常有价值的模型，它的效果非常好，尤其是 在解决小样本、非线性以及高纬数据中表现出了较之以前的方法不曾有的优势， 但是它的基本模型仍然是一个简单的线性分类模型，Max-margin的思想让它 区别于感知器，软间隔和核方法让SVM也同样适用于
+      &lt;p&gt;矩阵在现代工程中的应用之广不言而喻，关于矩阵的理解仅仅停留在本科线性代数知道定义会计算的层次是不够的，这里结合自己的理解和学习的内容谈谈矩阵。&lt;/p&gt;
+&lt;h1 id=&quot;矩阵是什么&quot;&gt;&lt;a href=&quot;#矩阵是什么&quot; class=&quot;headerlink&quot; title=&quot;矩阵是
     
     </summary>
     
-    
-      <category term="ML" scheme="http://wallsbreaker.github.io/tags/ML/"/>
     
   </entry>
   
